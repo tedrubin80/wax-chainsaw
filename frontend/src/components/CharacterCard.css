@@ -1,0 +1,119 @@
+.character-card {
+  background: linear-gradient(135deg, rgba(30, 30, 46, 0.9), rgba(45, 27, 78, 0.9));
+  border: 2px solid #7c3aed;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.character-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ec4899;
+}
+
+.rarity {
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.char-info {
+  margin-bottom: 15px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: #d1d5db;
+}
+
+.xp-bar {
+  margin: 15px 0;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+.xp-label {
+  font-size: 0.9rem;
+  color: #a78bfa;
+}
+
+.ability-scores {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.ability {
+  background-color: rgba(124, 58, 237, 0.2);
+  border: 1px solid #7c3aed;
+  border-radius: 8px;
+  padding: 10px 5px;
+  text-align: center;
+}
+
+.ability-name {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  font-weight: bold;
+}
+
+.ability-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 5px 0;
+}
+
+.ability-mod {
+  font-size: 0.8rem;
+  color: #a78bfa;
+  font-weight: bold;
+}
+
+.combat-record {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.gain-exp-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gain-exp-btn:hover {
+  background: linear-gradient(135deg, #6d28d9, #9333ea);
+  transform: scale(1.02);
+}

@@ -1,0 +1,10 @@
+node_modules/
+build/
+dist/
+*.wasm
+*.abi
+.DS_Store
+.env
+.vscode/
+frontend/build/
+frontend/node_modules/

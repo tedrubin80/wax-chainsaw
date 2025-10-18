@@ -1,0 +1,13 @@
+{
+  "name": "wax-rpg-collection",
+  "version": "1.0.0",
+  "description": "RPG Collection Game on WAX Blockchain",
+  "scripts": {
+    "build-contracts": "bash build.sh",
+    "frontend": "cd frontend && npm start",
+    "deploy": "node scripts/deploy.js"
+  },
+  "keywords": ["wax", "blockchain", "nft", "rpg", "game"],
+  "author": "",
+  "license": "MIT"
+}

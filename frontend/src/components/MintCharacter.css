@@ -1,0 +1,186 @@
+.mint-character {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.mint-character h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mint-character > p {
+  text-align: center;
+  color: #d1d5db;
+  margin-bottom: 30px;
+}
+
+.mint-form {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  border-radius: 12px;
+  border: 2px solid #7c3aed;
+  margin-bottom: 30px;
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section label {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ec4899;
+  margin-bottom: 15px;
+}
+
+.form-section input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  background-color: rgba(124, 58, 237, 0.2);
+  border: 2px solid #7c3aed;
+  border-radius: 8px;
+  color: white;
+  outline: none;
+}
+
+.form-section input:focus {
+  border-color: #ec4899;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.option-card {
+  background-color: rgba(124, 58, 237, 0.2);
+  border: 2px solid #7c3aed;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.option-card:hover {
+  background-color: rgba(124, 58, 237, 0.3);
+  transform: scale(1.02);
+}
+
+.option-card.selected {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(236, 72, 153, 0.5));
+  border-color: #ec4899;
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+
+.option-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.option-desc {
+  font-size: 0.85rem;
+  color: #d1d5db;
+  line-height: 1.4;
+}
+
+.rarity-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.rarity-card {
+  background-color: rgba(124, 58, 237, 0.2);
+  border: 2px solid #7c3aed;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.rarity-card:hover {
+  background-color: rgba(124, 58, 237, 0.3);
+  transform: scale(1.05);
+}
+
+.rarity-card.selected {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(236, 72, 153, 0.5));
+  border-color: #ec4899;
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+}
+
+.rarity-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.rarity-bonus {
+  font-size: 0.9rem;
+  color: #a78bfa;
+}
+
+.mint-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+
+.mint-btn:hover {
+  background: linear-gradient(135deg, #6d28d9, #db2777);
+  transform: scale(1.02);
+  box-shadow: 0 5px 20px rgba(236, 72, 153, 0.5);
+}
+
+.mint-info {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #7c3aed;
+}
+
+.mint-info h3 {
+  color: #ec4899;
+  margin-bottom: 15px;
+}
+
+.mint-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.mint-info li {
+  padding: 8px 0;
+  color: #d1d5db;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.mint-info li:before {
+  content: "🎲 ";
+  margin-right: 10px;
+}
+
+.mint-info li:last-child {
+  border-bottom: none;
+}
