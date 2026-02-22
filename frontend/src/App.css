@@ -86,42 +86,53 @@
   padding: 20px;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  background: transparent;
+  color: #a78bfa;
+  border: 1px solid #7c3aed;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(124, 58, 237, 0.15);
+  transform: scale(1.03);
+}
+
 .welcome {
-  max-width: 800px;
-  margin: 60px auto;
+  max-width: 600px;
+  margin: 80px auto;
   padding: 40px;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 16px;
   border: 2px solid #7c3aed;
+  text-align: center;
 }
 
 .welcome h2 {
   color: #ec4899;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .welcome p {
-  font-size: 18px;
-  margin-bottom: 20px;
+  font-size: 16px;
+  margin-bottom: 24px;
   line-height: 1.6;
+  color: #d1d5db;
 }
 
-.welcome ul {
-  text-align: left;
-  max-width: 500px;
-  margin: 30px auto;
-  list-style-type: none;
-}
-
-.welcome li {
-  padding: 10px;
-  margin: 10px 0;
-  background-color: rgba(124, 58, 237, 0.2);
-  border-radius: 8px;
-  border-left: 4px solid #7c3aed;
-}
-
-.welcome li:before {
-  content: "⚔️ ";
-  margin-right: 10px;
+.welcome-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
