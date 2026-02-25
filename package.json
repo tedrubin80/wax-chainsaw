@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "RPG Collection Game on WAX Blockchain",
   "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd frontend && npm start",
     "build-contracts": "bash build.sh",
-    "frontend": "cd frontend && npm start",
+    "dev": "cd frontend && npm run dev",
     "deploy": "node scripts/deploy.js"
   },
   "keywords": ["wax", "blockchain", "nft", "rpg", "game"],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
