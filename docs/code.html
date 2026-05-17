@@ -440,6 +440,10 @@
       <span class="file-icon">JS</span>
       <span class="file-name">App.js</span>
     </div>
+    <div class="tree-file" data-file="frontend-src-ErrorBoundary-js" onclick="showFile('frontend-src-ErrorBoundary-js')" title="Error boundary - catches render errors and shows fallback UI">
+      <span class="file-icon">JS</span>
+      <span class="file-name">ErrorBoundary.js</span>
+    </div>
     <div class="tree-file" data-file="frontend-src-index-css" onclick="showFile('frontend-src-index-css')" title="Global styles and dark theme">
       <span class="file-icon">CSS</span>
       <span class="file-name">index.css</span>
@@ -1325,18 +1329,85 @@ export default App;
 }
 </code></pre>
 </div>
-<div class="code-panel" id="panel-frontend-src-index-js" style="display:none" data-path="frontend/src/index.js" data-lang="javascript" data-desc="React entry point" data-lines="12">
+<div class="code-panel" id="panel-frontend-src-index-js" style="display:none" data-path="frontend/src/index.js" data-lang="javascript" data-desc="React entry point" data-lines="15">
 <pre><code class="language-javascript">import React from &#x27;react&#x27;;
 import ReactDOM from &#x27;react-dom/client&#x27;;
 import &#x27;./index.css&#x27;;
 import App from &#x27;./App&#x27;;
+import ErrorBoundary from &#x27;./ErrorBoundary&#x27;;
 
 const root = ReactDOM.createRoot(document.getElementById(&#x27;root&#x27;));
 root.render(
   &lt;React.StrictMode&gt;
-    &lt;App /&gt;
+    &lt;ErrorBoundary&gt;
+      &lt;App /&gt;
+    &lt;/ErrorBoundary&gt;
   &lt;/React.StrictMode&gt;
 );
+</code></pre>
+</div>
+<div class="code-panel" id="panel-frontend-src-ErrorBoundary-js" style="display:none" data-path="frontend/src/ErrorBoundary.js" data-lang="javascript" data-desc="Error boundary - catches render errors and shows fallback UI" data-lines="62">
+<pre><code class="language-javascript">import React from &#x27;react&#x27;;
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        &lt;div style={{
+          minHeight: &#x27;100vh&#x27;,
+          display: &#x27;flex&#x27;,
+          flexDirection: &#x27;column&#x27;,
+          alignItems: &#x27;center&#x27;,
+          justifyContent: &#x27;center&#x27;,
+          padding: &#x27;40px&#x27;,
+          textAlign: &#x27;center&#x27;,
+          color: &#x27;#d1d5db&#x27;,
+        }}&gt;
+          &lt;h2 style={{ color: &#x27;#ec4899&#x27;, marginBottom: &#x27;16px&#x27; }}&gt;Something went wrong&lt;/h2&gt;
+          &lt;pre style={{
+            background: &#x27;rgba(0,0,0,0.4)&#x27;,
+            border: &#x27;1px solid rgba(124,58,237,0.3)&#x27;,
+            borderRadius: &#x27;8px&#x27;,
+            padding: &#x27;16px&#x27;,
+            maxWidth: &#x27;600px&#x27;,
+            overflow: &#x27;auto&#x27;,
+            fontSize: &#x27;0.85rem&#x27;,
+            color: &#x27;#a78bfa&#x27;,
+          }}&gt;
+            {this.state.error.toString()}
+          &lt;/pre&gt;
+          &lt;button
+            style={{
+              marginTop: &#x27;24px&#x27;,
+              background: &#x27;linear-gradient(135deg, #7c3aed, #ec4899)&#x27;,
+              color: &#x27;#fff&#x27;,
+              border: &#x27;none&#x27;,
+              padding: &#x27;12px 24px&#x27;,
+              borderRadius: &#x27;8px&#x27;,
+              cursor: &#x27;pointer&#x27;,
+              fontWeight: &#x27;bold&#x27;,
+            }}
+            onClick={() =&gt; window.location.reload()}
+          &gt;
+            Reload
+          &lt;/button&gt;
+        &lt;/div&gt;
+      );
+    }
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
 </code></pre>
 </div>
 <div class="code-panel" id="panel-frontend-src-index-css" style="display:none" data-path="frontend/src/index.css" data-lang="css" data-desc="Global styles and dark theme" data-lines="20">
@@ -4139,19 +4210,24 @@ export default MintCharacter;
 }
 </code></pre>
 </div>
-<div class="code-panel" id="panel-package-json" style="display:none" data-path="package.json" data-lang="json" data-desc="Root project configuration" data-lines="14">
+<div class="code-panel" id="panel-package-json" style="display:none" data-path="package.json" data-lang="json" data-desc="Root project configuration" data-lines="19">
 <pre><code class="language-json">{
   &quot;name&quot;: &quot;wax-rpg-collection&quot;,
   &quot;version&quot;: &quot;1.0.0&quot;,
   &quot;description&quot;: &quot;RPG Collection Game on WAX Blockchain&quot;,
   &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;cd frontend &amp;&amp; npm install &amp;&amp; npm run build&quot;,
+    &quot;start&quot;: &quot;cd frontend &amp;&amp; npm start&quot;,
     &quot;build-contracts&quot;: &quot;bash build.sh&quot;,
-    &quot;frontend&quot;: &quot;cd frontend &amp;&amp; npm start&quot;,
+    &quot;dev&quot;: &quot;cd frontend &amp;&amp; npm run dev&quot;,
     &quot;deploy&quot;: &quot;node scripts/deploy.js&quot;
   },
   &quot;keywords&quot;: [&quot;wax&quot;, &quot;blockchain&quot;, &quot;nft&quot;, &quot;rpg&quot;, &quot;game&quot;],
   &quot;author&quot;: &quot;&quot;,
-  &quot;license&quot;: &quot;MIT&quot;
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=18.0.0&quot;
+  }
 }
 </code></pre>
 </div>

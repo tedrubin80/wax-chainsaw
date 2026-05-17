@@ -13,6 +13,7 @@ FILES = [
     ("frontend/src/App.js", "javascript", "Main React application with WAX wallet integration"),
     ("frontend/src/App.css", "css", "App header, tabs, and layout styles"),
     ("frontend/src/index.js", "javascript", "React entry point"),
+    ("frontend/src/ErrorBoundary.js", "javascript", "Error boundary - catches render errors and shows fallback UI"),
     ("frontend/src/index.css", "css", "Global styles and dark theme"),
     ("frontend/src/components/LandingPage.js", "javascript", "Portfolio landing page with mock data and animations"),
     ("frontend/src/components/LandingPage.css", "css", "Landing page sections, hero, battle demo, and responsive styles"),
