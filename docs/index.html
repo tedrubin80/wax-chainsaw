@@ -1,1328 +1,1829 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WAX RPG Collection - Portfolio</title>
-  <meta name="description" content="A full-stack blockchain RPG built on WAX with D&D 5e mechanics">
-  <meta name="theme-color" content="#1e1e2e">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WAX Chainsaw — D&D 5e Blockchain RPG</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
       background: linear-gradient(135deg, #1e1e2e 0%, #2d1b4e 100%);
+      background-attachment: fixed;
       color: #ffffff;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
       min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
     }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
 
-    /* ---- Navigation ---- */
-    .top-nav {
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1e1e2e; }
+    ::-webkit-scrollbar-thumb { background: #7c3aed; border-radius: 3px; }
+
+    /* ===== Navigation ===== */
+    #nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(30, 30, 46, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(124, 58, 237, 0.3);
-      padding: 14px 40px;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+      background: rgba(30, 30, 46, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(124, 58, 237, 0.25);
     }
-
     .nav-brand {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      background: linear-gradient(90deg, #7c3aed, #ec4899);
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #a78bfa, #ec4899);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-decoration: none;
     }
-
     .nav-links {
       display: flex;
-      gap: 24px;
       align-items: center;
+      gap: 1.5rem;
     }
-
     .nav-links a {
-      color: #9ca3af;
-      text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
+      color: #d1d5db;
       transition: color 0.2s;
     }
-
     .nav-links a:hover { color: #a78bfa; }
-
-    .nav-links a.code-link {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: white;
-      padding: 8px 18px;
+    .nav-btn {
+      padding: 0.45rem 1rem;
       border-radius: 6px;
-      font-weight: 600;
-      transition: transform 0.2s;
-    }
-
-    .nav-links a.code-link:hover { transform: scale(1.05); }
-
-    /* ---- Hero ---- */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 60px;
-      padding: 100px 60px 60px;
-      position: relative;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-content { max-width: 600px; z-index: 1; }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(124, 58, 237, 0.2);
-      border: 1px solid #7c3aed;
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 0.85rem;
-      color: #a78bfa;
-      margin-bottom: 20px;
-    }
-
-    .hero-title {
-      font-size: 3.8rem;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff, #a78bfa, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-size: 1.15rem;
-      color: #d1d5db;
-      line-height: 1.7;
-      margin-bottom: 36px;
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 36px;
-    }
-
-    .hero-stat { text-align: center; }
-
-    .hero-stat-number {
-      display: block;
-      font-size: 2rem;
-      font-weight: 800;
       background: linear-gradient(135deg, #7c3aed, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-stat-label {
-      font-size: 0.78rem;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .hero-actions { display: flex; gap: 16px; }
-
-    .btn {
-      padding: 14px 28px;
-      border-radius: 8px;
-      font-size: 1rem;
+      color: #ffffff !important;
+      font-size: 0.875rem;
       font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s;
-      cursor: pointer;
-      border: none;
+      transition: opacity 0.2s, transform 0.2s;
     }
+    .nav-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: #a78bfa;
-      border: 2px solid #7c3aed;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(124, 58, 237, 0.1);
-      transform: translateY(-2px);
-    }
-
-    /* Hero Visual */
-    .hero-visual { z-index: 1; }
-
-    .floating-card {
-      position: relative;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(2deg); }
-      50% { transform: translateY(-20px) rotate(-1deg); }
-    }
-
-    .card-glow {
-      position: absolute;
-      inset: -20px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
-      border-radius: 24px;
-      filter: blur(20px);
-      z-index: -1;
-    }
-
-    .mini-card {
-      background: linear-gradient(135deg, rgba(30, 30, 46, 0.95), rgba(45, 27, 78, 0.95));
-      border: 2px solid #a855f7;
-      border-radius: 16px;
-      padding: 24px;
-      width: 300px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    }
-
-    .mini-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(124, 58, 237, 0.3);
-    }
-
-    .mini-card-name { font-size: 1.2rem; font-weight: 700; color: #ec4899; }
-
-    .mini-card-rarity { color: #a855f7; font-size: 0.7rem; font-weight: bold; }
-
-    .mini-card-info { color: #d1d5db; font-size: 0.9rem; margin-bottom: 4px; }
-
-    .mini-card-stats {
-      display: flex;
-      justify-content: space-between;
-      margin: 12px 0;
-      padding: 8px 0;
-      border-top: 1px solid rgba(124, 58, 237, 0.2);
-      border-bottom: 1px solid rgba(124, 58, 237, 0.2);
-      color: #a78bfa;
-      font-size: 0.85rem;
-    }
-
-    .mini-ability-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 6px;
-      margin-top: 10px;
-    }
-
-    .mini-ability {
-      background: rgba(124, 58, 237, 0.2);
-      border: 1px solid rgba(124, 58, 237, 0.4);
-      border-radius: 6px;
-      padding: 6px 2px;
-      text-align: center;
-    }
-
-    .mini-ability-label { font-size: 0.55rem; color: #9ca3af; font-weight: 700; }
-    .mini-ability-value { font-size: 0.95rem; font-weight: 700; color: #fff; }
-
-    /* ---- Sections ---- */
+    /* ===== Section Animations ===== */
     .section {
-      padding: 100px 60px;
       opacity: 0;
       transform: translateY(40px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
-
     .section.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .section-title {
+    /* ===== Common Layout ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .section-header {
       text-align: center;
-      font-size: 2.6rem;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
       font-weight: 800;
-      margin-bottom: 12px;
-      background: linear-gradient(90deg, #7c3aed, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      margin-bottom: 0.75rem;
     }
-
-    .section-subtitle {
-      text-align: center;
+    .section-header p {
       color: #9ca3af;
-      font-size: 1.05rem;
-      margin-bottom: 60px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ---- Tech Stack ---- */
-    .tech-bg { background: rgba(0, 0, 0, 0.15); }
-
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .tech-card {
-      background: linear-gradient(135deg, rgba(30, 30, 46, 0.8), rgba(45, 27, 78, 0.6));
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 12px;
-      padding: 30px;
-      transition: all 0.3s;
-    }
-
-    .tech-card:hover {
-      border-color: #7c3aed;
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
-    }
-
-    .tech-icon { font-size: 2rem; margin-bottom: 16px; }
-    .tech-card h3 { color: #ec4899; margin-bottom: 10px; font-size: 1.2rem; }
-    .tech-card p { color: #d1d5db; font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px; }
-
-    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .tech-tag {
-      background: rgba(124, 58, 237, 0.2);
-      border: 1px solid rgba(124, 58, 237, 0.4);
-      border-radius: 4px;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      color: #a78bfa;
-    }
-
-    /* ---- Interface Preview ---- */
-    .interface-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .interface-card {
-      background: linear-gradient(135deg, rgba(30, 30, 46, 0.9), rgba(45, 27, 78, 0.8));
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.3s;
-    }
-
-    .interface-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(124, 58, 237, 0.25);
-    }
-
-    .interface-card-header {
-      padding: 20px 24px 0;
-    }
-
-    .interface-card-header h3 {
-      color: #ec4899;
-      font-size: 1.2rem;
-      margin-bottom: 6px;
-    }
-
-    .interface-card-header p {
-      color: #9ca3af;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-    }
-
-    .interface-card-body {
-      padding: 0 24px 24px;
-    }
-
-    /* Character Card Preview */
-    .preview-character {
-      background: linear-gradient(135deg, rgba(30, 30, 46, 0.9), rgba(45, 27, 78, 0.9));
-      border: 2px solid #a855f7;
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .preview-char-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(124, 58, 237, 0.3);
-    }
-
-    .preview-char-header h4 { color: #ec4899; font-size: 1.3rem; margin: 0; }
-    .preview-char-rarity { color: #a855f7; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
-
-    .preview-char-info {
-      display: flex;
-      justify-content: space-between;
-      color: #d1d5db;
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-
-    .preview-combat {
-      display: flex;
-      justify-content: space-between;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px 12px;
-      border-radius: 6px;
-      color: #a78bfa;
-      font-size: 0.85rem;
-      margin-bottom: 14px;
-    }
-
-    .preview-abilities {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .preview-ability {
-      background: rgba(124, 58, 237, 0.15);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 6px;
-      padding: 6px 2px;
-      text-align: center;
-    }
-
-    .preview-ability-label { display: block; font-size: 0.6rem; color: #9ca3af; font-weight: 700; }
-    .preview-ability-val { display: block; font-size: 1rem; font-weight: 700; color: #fff; }
-    .preview-ability-mod { display: block; font-size: 0.65rem; color: #a78bfa; font-weight: 600; }
-
-    .preview-record {
-      display: flex;
-      justify-content: space-between;
-      color: #9ca3af;
-      font-size: 0.8rem;
-      padding-top: 10px;
-      border-top: 1px solid rgba(124, 58, 237, 0.2);
-    }
-
-    .preview-btn {
-      width: 100%;
-      margin-top: 12px;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: bold;
-      cursor: default;
-    }
-
-    /* Battle Preview */
-    .preview-battle {
-      background: rgba(0, 0, 0, 0.3);
-      border: 2px solid rgba(124, 58, 237, 0.3);
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .preview-combatants {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .preview-combatant { flex: 1; text-align: center; }
-    .preview-combatant-name { font-size: 1rem; font-weight: 700; color: #fff; }
-    .preview-combatant-class { font-size: 0.75rem; color: #a78bfa; margin-bottom: 8px; }
-
-    .hp-bar {
-      height: 8px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 4px;
-      overflow: hidden;
-      margin: 0 10px 4px;
-    }
-
-    .hp-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.5s;
-    }
-
-    .hp-fill-green { background: linear-gradient(90deg, #dc2626, #22c55e); width: 80%; }
-    .hp-fill-blue { background: linear-gradient(90deg, #dc2626, #3b82f6); width: 75%; }
-
-    .hp-text { font-size: 0.7rem; color: #9ca3af; }
-
-    .vs-badge {
-      font-size: 1.5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #dc2626, #f59e0b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      padding: 0 16px;
-    }
-
-    .preview-log { display: flex; flex-direction: column; gap: 4px; }
-
-    .preview-log-entry {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 4px;
-      background: rgba(0, 0, 0, 0.2);
-      font-size: 0.75rem;
-    }
-
-    .preview-log-entry.active {
-      background: rgba(124, 58, 237, 0.2);
-      border: 1px solid rgba(124, 58, 237, 0.4);
-    }
-
-    .log-round {
-      background: rgba(124, 58, 237, 0.3);
-      padding: 1px 6px;
-      border-radius: 3px;
-      font-weight: 700;
-      color: #a78bfa;
-      font-size: 0.65rem;
-    }
-
-    .log-name { color: #d1d5db; flex: 1; }
-    .log-roll { color: #9ca3af; font-family: monospace; }
-    .log-hit { color: #22c55e; font-weight: 700; }
-    .log-miss { color: #ef4444; font-weight: 700; }
-
-    /* Mint Preview */
-    .preview-mint {
-      background: rgba(0, 0, 0, 0.3);
-      border: 2px solid #7c3aed;
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .preview-form-label {
-      display: block;
       font-size: 1rem;
-      font-weight: bold;
-      color: #ec4899;
-      margin-bottom: 10px;
-    }
-
-    .preview-input {
-      width: 100%;
-      padding: 10px;
-      font-size: 0.9rem;
-      background: rgba(124, 58, 237, 0.2);
-      border: 2px solid #7c3aed;
-      border-radius: 8px;
-      color: #9ca3af;
-      margin-bottom: 16px;
-      outline: none;
-    }
-
-    .preview-option-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .preview-option {
-      background: rgba(124, 58, 237, 0.2);
-      border: 2px solid #7c3aed;
-      border-radius: 8px;
-      padding: 8px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: #d1d5db;
-    }
-
-    .preview-option.selected {
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(236, 72, 153, 0.5));
-      border-color: #ec4899;
-      box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
-      color: #fff;
-      font-weight: 600;
-    }
-
-    .preview-rarity-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    .preview-rarity {
-      border: 2px solid;
-      border-radius: 6px;
-      padding: 6px 4px;
-      text-align: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    .preview-mint-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #7c3aed, #ec4899);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: default;
-    }
-
-    /* ---- Contract Section ---- */
-    .contract-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto 40px;
-    }
-
-    .contract-grid h3 { color: #ec4899; margin-bottom: 20px; font-size: 1.2rem; }
-
-    .action-list { display: flex; flex-direction: column; gap: 12px; }
-
-    .action-item {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(124, 58, 237, 0.2);
-      border-radius: 8px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .action-name {
-      color: #22c55e;
-      font-size: 0.9rem;
-      font-family: 'Courier New', monospace;
-      background: rgba(34, 197, 94, 0.1);
-      padding: 2px 8px;
-      border-radius: 4px;
-      align-self: flex-start;
-    }
-
-    .action-desc { color: #d1d5db; font-size: 0.85rem; }
-
-    .table-card {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(124, 58, 237, 0.2);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .table-card h4 { color: #a78bfa; font-family: monospace; margin-bottom: 8px; }
-    .table-card p { color: #9ca3af; font-size: 0.85rem; line-height: 1.5; margin-bottom: 10px; }
-
-    .table-indexes { display: flex; flex-wrap: wrap; gap: 6px; }
-
-    .index-tag {
-      background: rgba(124, 58, 237, 0.15);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 4px;
-      padding: 3px 8px;
-      font-size: 0.7rem;
-      color: #a78bfa;
-      font-family: monospace;
-    }
-
-    /* Code Preview */
-    .code-preview {
-      max-width: 800px;
-      margin: 0 auto;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(124, 58, 237, 0.3);
-    }
-
-    .code-header {
-      background: rgba(30, 30, 46, 0.95);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid rgba(124, 58, 237, 0.2);
-    }
-
-    .code-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .code-dot.red { background: #ef4444; }
-    .code-dot.yellow { background: #eab308; }
-    .code-dot.green { background: #22c55e; }
-
-    .code-filename {
-      color: #9ca3af;
-      font-size: 0.8rem;
-      margin-left: 8px;
-      font-family: monospace;
-    }
-
-    .code-block {
-      background: rgba(15, 15, 25, 0.95);
-      padding: 24px;
-      margin: 0;
-      overflow-x: auto;
-      font-size: 0.83rem;
-      line-height: 1.7;
-      color: #d1d5db;
-      font-family: 'Courier New', 'Fira Code', monospace;
-    }
-
-    /* ---- Architecture ---- */
-    .arch-bg { background: rgba(0, 0, 0, 0.15); }
-
-    .arch-diagram { max-width: 800px; margin: 0 auto 50px; }
-    .arch-layer { margin-bottom: 8px; }
-
-    .arch-label {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-
-    .arch-boxes {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .arch-box {
-      padding: 16px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .arch-box.frontend { background: rgba(124, 58, 237, 0.2); border: 1px solid rgba(124, 58, 237, 0.4); color: #a78bfa; }
-    .arch-box.chain { background: rgba(236, 72, 153, 0.15); border: 1px solid rgba(236, 72, 153, 0.3); color: #f472b6; }
-    .arch-box.data { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #4ade80; }
-
-    .arch-arrow { text-align: center; color: #6b7280; padding: 12px 0; font-size: 0.85rem; }
-
-    .structure-tree {
       max-width: 600px;
       margin: 0 auto;
-      background: rgba(15, 15, 25, 0.95);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 12px;
-      padding: 24px;
-      font-family: monospace;
-      font-size: 0.85rem;
-      line-height: 1.8;
-      color: #d1d5db;
     }
-
-    .structure-tree h3 {
-      color: #ec4899;
-      margin-bottom: 16px;
-      text-align: center;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    /* ---- Feature Chips ---- */
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .feature-card {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      border-radius: 12px;
-      padding: 24px;
-    }
-
-    .feature-card h4 { color: #ec4899; margin-bottom: 16px; font-size: 1.1rem; }
-
-    .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .chip {
-      background: rgba(124, 58, 237, 0.2);
-      border: 1px solid rgba(124, 58, 237, 0.4);
-      border-radius: 6px;
-      padding: 6px 14px;
-      font-size: 0.85rem;
-      color: #d1d5db;
-    }
-
-    .chip-race {
-      border-color: rgba(236, 72, 153, 0.4);
-      background: rgba(236, 72, 153, 0.1);
-    }
-
-    .chip-rarity {
-      border: 2px solid;
-      font-weight: 600;
-      background: rgba(0, 0, 0, 0.3);
-    }
-
-    /* ---- Footer ---- */
-    .footer {
-      border-top: 1px solid rgba(124, 58, 237, 0.2);
-      padding: 60px;
-      margin-top: 40px;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-    }
-
-    .footer-brand h3 {
-      background: linear-gradient(90deg, #7c3aed, #ec4899);
+    .gradient-text {
+      background: linear-gradient(90deg, #a78bfa, #ec4899);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      font-size: 1.3rem;
-      margin-bottom: 8px;
     }
 
-    .footer-brand p { color: #6b7280; font-size: 0.9rem; }
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 1.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #a78bfa;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    .hero-desc {
+      color: #d1d5db;
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .hero-pill {
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.25);
+      color: #a78bfa;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid rgba(167,139,250,0.4);
+      color: #a78bfa;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(167,139,250,0.1); transform: translateY(-2px); }
 
-    .footer-links h4 { color: #d1d5db; margin-bottom: 12px; font-size: 0.9rem; }
+    /* Hero Character Card */
+    .hero-card-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .floating-card {
+      animation: float 6s ease-in-out infinite;
+      width: 100%;
+      max-width: 320px;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(2deg); }
+      50%       { transform: translateY(-20px) rotate(-1deg); }
+    }
+    .char-card {
+      background: rgba(30, 20, 60, 0.9);
+      border: 2px solid #a855f7;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 0 40px rgba(168, 85, 247, 0.3), 0 20px 60px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .char-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(168,85,247,0.08), rgba(236,72,153,0.05));
+      pointer-events: none;
+    }
+    .char-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .char-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+    .char-id-block { text-align: right; }
+    .char-id-label { font-size: 0.65rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; }
+    .char-id-val { font-size: 0.8rem; color: #a78bfa; font-family: monospace; }
+    .char-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.15rem;
+      color: #ffffff;
+    }
+    .char-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      margin-bottom: 1rem;
+    }
+    .char-rarity-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .char-combat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .combat-cell {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 0.45rem 0.25rem;
+      text-align: center;
+    }
+    .combat-cell-label { font-size: 0.6rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; display: block; }
+    .combat-cell-val { font-size: 0.95rem; font-weight: 700; color: #ffffff; display: block; }
+    .ability-grid-mini {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+    }
+    .ability-cell-mini {
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 0.3rem 0.15rem;
+      text-align: center;
+    }
+    .ability-abbr { font-size: 0.55rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.04em; display: block; }
+    .ability-score-mini { font-size: 0.8rem; font-weight: 700; color: #ffffff; display: block; }
+    .ability-mod-mini { font-size: 0.6rem; color: #a78bfa; display: block; }
+    .char-wl-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .wl-stat { font-size: 0.78rem; }
+    .wl-w { color: #22c55e; font-weight: 700; }
+    .wl-l { color: #ef4444; font-weight: 700; }
+    .win-rate { font-size: 0.75rem; color: #a78bfa; font-weight: 600; }
 
-    .footer-links a, .footer-links span {
-      display: block;
-      color: #6b7280;
-      text-decoration: none;
+    /* ===== TECH STACK ===== */
+    #tech { padding: 5rem 1.5rem; }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .tech-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .tech-card:hover {
+      border-color: rgba(124,58,237,0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(124,58,237,0.15);
+    }
+    .tech-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .tech-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .tech-card p { font-size: 0.83rem; color: #9ca3af; line-height: 1.5; }
+    .tech-tag {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: #a78bfa;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    /* ===== CHARACTER SHOWCASE ===== */
+    #characters { padding: 5rem 1.5rem; }
+    .chars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .char-showcase-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 2px solid var(--rarity-color, rgba(255,255,255,0.1));
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .char-showcase-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .showcase-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .showcase-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .showcase-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; }
+    .rarity-badge {
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .level-badge {
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .showcase-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+    .showcase-subtitle {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 1rem;
+    }
+    /* Combat stats row */
+    .combat-row-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .stat-box {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .stat-box-label { font-size: 0.6rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; display: block; }
+    .stat-box-val { font-size: 1rem; font-weight: 700; color: #ffffff; display: block; }
+    /* Ability scores 6-col */
+    .ability-grid-6 {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .ability-cell {
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      padding: 0.5rem 0.2rem;
+      text-align: center;
+    }
+    .ab-abbr { font-size: 0.58rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.04em; display: block; }
+    .ab-score { font-size: 1rem; font-weight: 700; display: block; }
+    .ab-mod { font-size: 0.62rem; color: #a78bfa; display: block; }
+    /* XP bar */
+    .xp-bar-wrap { margin-bottom: 1rem; }
+    .xp-bar-top { display: flex; justify-content: space-between; font-size: 0.72rem; color: #9ca3af; margin-bottom: 0.3rem; }
+    .xp-bar-bg {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .xp-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+    /* Win/loss footer */
+    .wl-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .wl-wins  { color: #22c55e; font-weight: 700; font-size: 0.85rem; }
+    .wl-losses{ color: #ef4444; font-weight: 700; font-size: 0.85rem; }
+    .wl-rate  { font-size: 0.8rem; color: #a78bfa; font-weight: 600; }
+
+    /* ===== BATTLE SYSTEM ===== */
+    #battle { padding: 5rem 1.5rem; }
+    .battle-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .battle-log-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .battle-log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .battle-log-title { font-size: 1rem; font-weight: 700; }
+    .battle-live-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      color: #22c55e;
+      font-weight: 600;
+    }
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    /* VS row */
+    .vs-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .vs-fighter { text-align: center; flex: 1; min-width: 0; }
+    .vs-fighter-name { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vs-hp-label { display: flex; justify-content: space-between; font-size: 0.68rem; color: #9ca3af; margin-bottom: 0.2rem; }
+    .hp-bar-bg {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .hp-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
+    .hp-fill-thorin { background: linear-gradient(90deg, #22c55e, #86efac); }
+    .hp-fill-kael   { background: linear-gradient(90deg, #3b82f6, #93c5fd); }
+    .vs-badge {
+      font-size: 1.1rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      flex-shrink: 0;
+    }
+    /* Log entries */
+    .log-entries { display: flex; flex-direction: column; gap: 0.4rem; }
+    .log-entry {
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid transparent;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .log-entry.active {
+      background: rgba(124,58,237,0.12);
+      border-color: rgba(124,58,237,0.35);
+    }
+    .log-entry.active.miss-entry {
+      background: rgba(239,68,68,0.08);
+      border-color: rgba(239,68,68,0.25);
+    }
+    .log-round { font-size: 0.65rem; color: #9ca3af; font-weight: 600; white-space: nowrap; padding-top: 1px; flex-shrink: 0; }
+    .log-actor { font-weight: 700; }
+    .log-actor-thorin { color: #a855f7; font-weight: 700; }
+    .log-actor-kael   { color: #3b82f6; font-weight: 700; }
+    .log-roll  { color: #fbbf24; font-weight: 600; }
+    .log-hit   { color: #22c55e; font-weight: 700; }
+    .log-miss  { color: #ef4444; font-weight: 700; }
+    .log-dmg   { color: #f97316; font-weight: 700; }
+    /* Dice panel */
+    .dice-panel { display: flex; flex-direction: column; gap: 1rem; }
+    .dice-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .dice-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+    .dice-display {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 900;
+      box-shadow: 0 0 30px rgba(124,58,237,0.4);
+      transition: box-shadow 0.3s;
+      user-select: none;
+    }
+    .dice-display.rolling { animation: roll-shake 0.08s infinite; }
+    @keyframes roll-shake {
+      0%   { transform: rotate(-5deg) scale(1.05); }
+      50%  { transform: rotate(5deg) scale(0.97); }
+      100% { transform: rotate(-5deg) scale(1.05); }
+    }
+    .dice-result-label {
       font-size: 0.85rem;
-      margin-bottom: 8px;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      min-height: 1.3em;
+    }
+    .dice-result-label.crit   { color: #eab308; }
+    .dice-result-label.fail   { color: #ef4444; }
+    .dice-result-label.normal { color: #9ca3af; }
+    .btn-roll {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #7c3aed, #ec4899);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-roll:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-roll:not(:disabled):hover { opacity: 0.9; }
+    /* Quick stats */
+    .quick-stats-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+    }
+    .quick-stats-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.85rem; color: #d1d5db; }
+    .qs-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .qs-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #9ca3af; }
+    .qs-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ===== SMART CONTRACT ===== */
+    #contract { padding: 5rem 1.5rem; }
+    .contract-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .contract-left { display: flex; flex-direction: column; gap: 1.5rem; }
+    .panel-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .panel-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: #d1d5db; }
+    .action-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .action-name {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #a78bfa;
+      flex-shrink: 0;
+    }
+    .action-desc { font-size: 0.78rem; color: #9ca3af; }
+    .table-list { display: flex; flex-direction: column; gap: 0.85rem; }
+    .table-name {
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #ec4899;
+      margin-bottom: 0.3rem;
+    }
+    .table-indexes { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .index-badge {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(236,72,153,0.1);
+      border: 1px solid rgba(236,72,153,0.25);
+      font-size: 0.65rem;
+      color: #f9a8d4;
+      font-family: monospace;
+    }
+    /* Code window */
+    .code-window {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .code-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: #252535;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .dot-red { background: #ff5f57; }
+    .dot-yel { background: #ffbd2e; }
+    .dot-grn { background: #28c840; }
+    .code-filename {
+      margin-left: 0.5rem;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      font-family: monospace;
+    }
+    .code-body {
+      background: #1a1a2e;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+    }
+    .code-body pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.75;
+      white-space: pre;
+      color: #e2e8f0;
+    }
+    .kw { color: #c792ea; }
+    .ty { color: #82aaff; }
+    .cm { color: #546e7a; font-style: italic; }
+    .nm { color: #f78c6c; }
+    .fn { color: #82aaff; }
+    .id { color: #eeffff; }
+
+    /* ===== PROGRESSION SYSTEM ===== */
+    #progression { padding: 5rem 1.5rem; }
+    .prog-inner { display: flex; flex-direction: column; gap: 2rem; }
+    .prog-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .prog-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .prog-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; color: #d1d5db; }
+    /* XP Table */
+    .xp-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .xp-table th {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      color: #9ca3af;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .xp-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #d1d5db;
+    }
+    .xp-table tr.asi-row td { background: rgba(124,58,237,0.1); }
+    .xp-table tr.asi-row td:first-child { color: #a78bfa; font-weight: 700; }
+    .xp-val { font-family: monospace; color: #a78bfa; }
+    .asi-flag {
+      display: inline-block;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(124,58,237,0.25);
+      border: 1px solid rgba(124,58,237,0.4);
+      font-size: 0.62rem;
+      color: #c4b5fd;
+      font-weight: 700;
+    }
+    /* Hit dice grid */
+    .hit-dice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    .hd-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      font-size: 0.8rem;
+    }
+    .hd-class { color: #d1d5db; }
+    .hd-die { font-family: monospace; font-weight: 700; font-size: 0.88rem; }
+    .hd-d12 { color: #ef4444; }
+    .hd-d10 { color: #f97316; }
+    .hd-d8  { color: #eab308; }
+    .hd-d6  { color: #22c55e; }
+    /* Prof table */
+    .prof-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .prof-table th {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      color: #9ca3af;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .prof-table td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #d1d5db;
+    }
+    .prof-bonus { font-weight: 700; color: #a78bfa; }
+    .tier-badge {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 700;
     }
 
+    /* ===== PROJECT ARCHITECTURE ===== */
+    #architecture { padding: 5rem 1.5rem; }
+    .arch-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    /* Layer diagram */
+    .layer-diagram { display: flex; flex-direction: column; gap: 0.75rem; }
+    .arch-layer {
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid;
+    }
+    .arch-layer-frontend { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.35); }
+    .arch-layer-blockchain { background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.3); }
+    .arch-layer-data { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.3); }
+    .arch-layer-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .arch-layer-frontend .arch-layer-label { color: #a78bfa; }
+    .arch-layer-blockchain .arch-layer-label { color: #f9a8d4; }
+    .arch-layer-data .arch-layer-label { color: #93c5fd; }
+    .arch-layer-items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .arch-item {
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .arch-layer-frontend .arch-item  { background: rgba(124,58,237,0.2); color: #c4b5fd; }
+    .arch-layer-blockchain .arch-item { background: rgba(236,72,153,0.15); color: #f9a8d4; }
+    .arch-layer-data .arch-item       { background: rgba(59,130,246,0.15); color: #93c5fd; }
+    .arch-arrow { text-align: center; color: #4b5563; font-size: 1.25rem; line-height: 0.9; }
+    /* File tree */
+    .file-tree-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .file-tree-header {
+      padding: 0.75rem 1rem;
+      background: #252535;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.78rem;
+      color: #9ca3af;
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .file-tree-body {
+      padding: 1rem 1.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.9;
+    }
+    .ft-dir  { color: #7c3aed; font-weight: 700; }
+    .ft-file { color: #d1d5db; }
+    .ft-ext-cpp  { color: #a78bfa; }
+    .ft-ext-js   { color: #fbbf24; }
+    .ft-ext-html { color: #f97316; }
+    .ft-ext-md   { color: #9ca3af; }
+    .ft-ext-json { color: #22c55e; }
+    .ft-comment  { color: #546e7a; font-style: italic; }
+    .ft-i1 { padding-left: 1.25rem; display: block; }
+    .ft-i2 { padding-left: 2.5rem;  display: block; }
+
+    /* ===== FOOTER ===== */
+    #footer {
+      padding: 3rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer-brand-name {
+      font-size: 1.1rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #a78bfa, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.25rem;
+    }
+    .footer-tagline { font-size: 0.8rem; color: #9ca3af; }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.85rem; color: #9ca3af; transition: color 0.2s; }
     .footer-links a:hover { color: #a78bfa; }
+    .footer-built { font-size: 0.78rem; color: #4b5563; text-align: right; line-height: 1.7; }
 
-    /* ---- Responsive ---- */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-        padding: 100px 30px 40px;
-      }
-      .hero-stats { grid-template-columns: repeat(2, 1fr); }
-      .hero-actions { justify-content: center; }
-      .contract-grid { grid-template-columns: 1fr; }
-      .footer-content { grid-template-columns: 1fr; text-align: center; }
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .chars-grid { grid-template-columns: repeat(2, 1fr); }
+      .battle-inner { grid-template-columns: 1fr; }
+      .contract-inner { grid-template-columns: 1fr; }
+      .prog-row { grid-template-columns: 1fr; }
+      .arch-inner { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 768px) {
-      .section { padding: 60px 20px; }
-      .hero-title { font-size: 2.5rem; }
-      .section-title { font-size: 2rem; }
-      .interface-grid { grid-template-columns: 1fr; }
-      .arch-boxes { grid-template-columns: 1fr; }
-      .preview-abilities { grid-template-columns: repeat(3, 1fr); }
-      .preview-option-grid { grid-template-columns: repeat(2, 1fr); }
-      .preview-rarity-grid { grid-template-columns: repeat(3, 1fr); }
-      .mini-card { width: 260px; }
-      .nav-links { gap: 12px; }
-      .top-nav { padding: 12px 20px; }
+      #nav { padding: 0 1rem; }
+      .nav-links a:not(.nav-btn) { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+      .hero-card-wrap { order: -1; }
+      .hero-pills { justify-content: center; }
+      .hero-actions { justify-content: center; }
+      .hero-desc { margin: 0 auto 2rem; }
+      .chars-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr; }
+      .combat-row-4 { grid-template-columns: repeat(2, 1fr); }
+      .ability-grid-6 { grid-template-columns: repeat(3, 1fr); }
+      .ability-grid-mini { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .char-combat-row { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="top-nav">
-    <a href="index.html" class="nav-brand">WAX RPG Collection</a>
-    <div class="nav-links">
-      <a href="#tech">Tech Stack</a>
-      <a href="#interface">Interface</a>
-      <a href="#contract">Contract</a>
-      <a href="#architecture">Architecture</a>
-      <a href="code.html" class="code-link">Browse Code</a>
-    </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero">
+<!-- ===== NAVIGATION ===== -->
+<nav id="nav">
+  <div class="nav-brand">&#9876; WAX Chainsaw</div>
+  <div class="nav-links">
+    <a href="#tech">Tech Stack</a>
+    <a href="#characters">Characters</a>
+    <a href="#battle">Battle</a>
+    <a href="#contract">Contract</a>
+    <a href="#progression">Progression</a>
+    <a href="code.html" class="nav-btn">Browse Code</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-badge">Blockchain RPG Project</div>
-      <h1 class="hero-title">WAX RPG Collection</h1>
-      <p class="hero-subtitle">
-        A full-stack blockchain RPG built on WAX, combining NFT collectible mechanics
-        with authentic D&D 5th Edition tabletop rules. Features on-chain character creation,
-        combat resolution, and progression systems.
+      <div class="hero-eyebrow">
+        &#9876; WAX Blockchain &times; D&amp;D 5e SRD
+      </div>
+      <h1 class="hero-title">
+        On-Chain<br/>
+        <span class="gradient-text">Dungeons &amp; Dragons</span><br/>
+        RPG
+      </h1>
+      <p class="hero-desc">
+        A fully on-chain RPG built on the WAX blockchain, bringing D&amp;D 5e mechanics
+        to Web3. Mint NFT characters, battle opponents, and progress through a faithful
+        implementation of the 5th Edition ruleset &mdash; all powered by a C++ smart contract.
       </p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="hero-stat-number">12</span>
-          <span class="hero-stat-label">Character Classes</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-number">9</span>
-          <span class="hero-stat-label">Playable Races</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-number">540+</span>
-          <span class="hero-stat-label">Lines of C++</span>
-        </div>
-        <div class="hero-stat">
-          <span class="hero-stat-number">5</span>
-          <span class="hero-stat-label">Rarity Tiers</span>
-        </div>
+      <div class="hero-pills">
+        <span class="hero-pill">12 Classes</span>
+        <span class="hero-pill">9 Races</span>
+        <span class="hero-pill">5 Rarity Tiers</span>
+        <span class="hero-pill">540+ Lines C++</span>
+        <span class="hero-pill">D&amp;D 5e SRD</span>
       </div>
       <div class="hero-actions">
-        <a href="#interface" class="btn btn-primary">Explore Interface</a>
-        <a href="code.html" class="btn btn-secondary">Browse Code</a>
+        <a href="#characters" class="btn-primary">View Characters</a>
+        <a href="code.html" class="btn-secondary">Browse Contract</a>
       </div>
     </div>
-    <div class="hero-visual">
+
+    <div class="hero-card-wrap">
       <div class="floating-card">
-        <div class="card-glow"></div>
-        <div class="mini-card">
-          <div class="mini-card-header">
-            <span class="mini-card-name">Thorin Ironforge</span>
-            <span class="mini-card-rarity">EPIC</span>
+        <div class="char-card">
+          <div class="char-card-top">
+            <div class="char-avatar">&#9876;</div>
+            <div class="char-id-block">
+              <div class="char-id-label">Token ID</div>
+              <div class="char-id-val">#0001</div>
+            </div>
           </div>
-          <div class="mini-card-info">Level 12 Barbarian</div>
-          <div class="mini-card-info">Dwarf</div>
-          <div class="mini-card-stats">
-            <span>HP 125</span>
-            <span>AC 16</span>
-            <span>W/L 47/12</span>
+          <div class="char-name">Thorin Ironforge</div>
+          <div class="char-subtitle">
+            <span class="char-rarity-dot" style="background:#a855f7;"></span>
+            EPIC &bull; Dwarf Barbarian &bull; Lv 12
           </div>
-          <div class="mini-ability-grid">
-            <div class="mini-ability"><div class="mini-ability-label">STR</div><div class="mini-ability-value">20</div></div>
-            <div class="mini-ability"><div class="mini-ability-label">DEX</div><div class="mini-ability-value">14</div></div>
-            <div class="mini-ability"><div class="mini-ability-label">CON</div><div class="mini-ability-value">18</div></div>
-            <div class="mini-ability"><div class="mini-ability-label">INT</div><div class="mini-ability-value">10</div></div>
-            <div class="mini-ability"><div class="mini-ability-label">WIS</div><div class="mini-ability-value">13</div></div>
-            <div class="mini-ability"><div class="mini-ability-label">CHA</div><div class="mini-ability-value">8</div></div>
+          <div class="char-combat-row">
+            <div class="combat-cell">
+              <span class="combat-cell-label">HP</span>
+              <span class="combat-cell-val">125</span>
+            </div>
+            <div class="combat-cell">
+              <span class="combat-cell-label">AC</span>
+              <span class="combat-cell-val">16</span>
+            </div>
+            <div class="combat-cell">
+              <span class="combat-cell-label">Prof</span>
+              <span class="combat-cell-val">+4</span>
+            </div>
+            <div class="combat-cell">
+              <span class="combat-cell-label">XP</span>
+              <span class="combat-cell-val">100k</span>
+            </div>
+          </div>
+          <div class="ability-grid-mini">
+            <div class="ability-cell-mini">
+              <span class="ability-abbr">STR</span>
+              <span class="ability-score-mini">20</span>
+              <span class="ability-mod-mini">+5</span>
+            </div>
+            <div class="ability-cell-mini">
+              <span class="ability-abbr">DEX</span>
+              <span class="ability-score-mini">14</span>
+              <span class="ability-mod-mini">+2</span>
+            </div>
+            <div class="ability-cell-mini">
+              <span class="ability-abbr">CON</span>
+              <span class="ability-score-mini">18</span>
+              <span class="ability-mod-mini">+4</span>
+            </div>
+            <div class="ability-cell-mini">
+              <span class="ability-abbr">INT</span>
+              <span class="ability-score-mini">10</span>
+              <span class="ability-mod-mini">+0</span>
+            </div>
+            <div class="ability-cell-mini">
+              <span class="ability-abbr">WIS</span>
+              <span class="ability-score-mini">13</span>
+              <span class="ability-mod-mini">+1</span>
+            </div>
+            <div class="ability-cell-mini">
+              <span class="ability-abbr">CHA</span>
+              <span class="ability-score-mini">8</span>
+              <span class="ability-mod-mini">-1</span>
+            </div>
+          </div>
+          <div class="char-wl-row">
+            <div class="wl-stat">
+              <span class="wl-w">W 47</span>&nbsp;/&nbsp;<span class="wl-l">L 12</span>
+            </div>
+            <div class="win-rate">Win Rate: 79.7%</div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Tech Stack -->
-  <section id="tech" class="section tech-bg">
-    <h2 class="section-title">Tech Stack</h2>
-    <p class="section-subtitle">Built with modern blockchain and web technologies</p>
+<!-- ===== TECH STACK ===== -->
+<section id="tech" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Built with <span class="gradient-text">Proven Technology</span></h2>
+      <p>Every component chosen to deliver a trustless, performant on-chain RPG experience.</p>
+    </div>
     <div class="tech-grid">
       <div class="tech-card">
-        <div class="tech-icon">&#x2699;</div>
-        <h3>Smart Contract</h3>
-        <p>C++ on EOSIO/WAX blockchain with multi-index tables, secondary indexes, and on-chain game logic</p>
-        <div class="tech-tags">
-          <span class="tech-tag">C++</span>
-          <span class="tech-tag">EOSIO</span>
-          <span class="tech-tag">WAX CDT</span>
-        </div>
+        <div class="tech-icon">&#9881;</div>
+        <h3>Smart Contract C++</h3>
+        <p>540+ lines of EOSIO/WAX C++ handling minting, combat resolution, XP progression, equipment, and rest mechanics fully on-chain.</p>
+        <div class="tech-tag">EOSIO CDT</div>
       </div>
       <div class="tech-card">
-        <div class="tech-icon">&#x269B;</div>
-        <h3>Frontend</h3>
-        <p>React 18 with hooks-based state management and WAX Cloud Wallet integration</p>
-        <div class="tech-tags">
-          <span class="tech-tag">React 18</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">CSS3</span>
-        </div>
+        <div class="tech-icon">&#9889;</div>
+        <h3>Frontend React 18</h3>
+        <p>Modern React with hooks, waxjs and eosjs for wallet integration, and real-time blockchain state synced to a responsive UI.</p>
+        <div class="tech-tag">React 18</div>
       </div>
       <div class="tech-card">
-        <div class="tech-icon">&#x1F517;</div>
-        <h3>Blockchain</h3>
-        <p>WAX blockchain for NFT minting, on-chain combat resolution, and decentralized character ownership</p>
-        <div class="tech-tags">
-          <span class="tech-tag">WAX</span>
-          <span class="tech-tag">waxjs</span>
-          <span class="tech-tag">eosjs</span>
-        </div>
+        <div class="tech-icon">&#127760;</div>
+        <h3>Blockchain WAX</h3>
+        <p>WAX (Worldwide Asset eXchange) &mdash; a carbon-neutral EOSIO blockchain purpose-built for NFTs and gaming with zero gas fees for users.</p>
+        <div class="tech-tag">WAX Protocol</div>
       </div>
       <div class="tech-card">
-        <div class="tech-icon">&#x1F3B2;</div>
-        <h3>Game Design</h3>
-        <p>Faithful D&D 5e mechanics including standard array, proficiency scaling, and XP progression</p>
-        <div class="tech-tags">
-          <span class="tech-tag">D&amp;D 5e</span>
-          <span class="tech-tag">d20 System</span>
-          <span class="tech-tag">NFT</span>
-        </div>
+        <div class="tech-icon">&#127922;</div>
+        <h3>Game Design D&amp;D 5e</h3>
+        <p>Faithful implementation of the D&amp;D 5th Edition System Reference Document: ability scores, hit dice, proficiency bonuses, and ASI progression.</p>
+        <div class="tech-tag">SRD 5.1</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Interface Previews -->
-  <section id="interface" class="section">
-    <h2 class="section-title">Interface Design</h2>
-    <p class="section-subtitle">React component previews showing the game's UI</p>
-    <div class="interface-grid">
+<!-- ===== CHARACTER SHOWCASE ===== -->
+<section id="characters" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Character <span class="gradient-text">Showcase</span></h2>
+      <p>Each character is a unique NFT with full D&amp;D 5e stats &mdash; ability scores, combat stats, XP, and battle records all stored on-chain.</p>
+    </div>
+    <div class="chars-grid">
 
-      <!-- Character Card Preview -->
-      <div class="interface-card">
-        <div class="interface-card-header">
-          <h3>CharacterCard.js</h3>
-          <p>Displays NFT character with full D&amp;D 5e stats, ability scores, and combat record</p>
+      <!-- Thorin Ironforge — EPIC -->
+      <div class="char-showcase-card" style="--rarity-color: #a855f7; border-color: rgba(168,85,247,0.5);">
+        <div class="showcase-top">
+          <div class="showcase-avatar" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">&#9876;</div>
+          <div class="showcase-badges">
+            <span class="rarity-badge" style="background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.5);color:#a855f7;">EPIC</span>
+            <span class="level-badge">Level 12</span>
+          </div>
         </div>
-        <div class="interface-card-body">
-          <div class="preview-character">
-            <div class="preview-char-header">
-              <h4>Lyra Moonshadow</h4>
-              <span class="preview-char-rarity" style="color: #eab308">LEGENDARY</span>
+        <div class="showcase-name">Thorin Ironforge</div>
+        <div class="showcase-subtitle">Dwarf Barbarian &bull; Token #0001</div>
+        <div class="combat-row-4">
+          <div class="stat-box"><span class="stat-box-label">HP</span><span class="stat-box-val">125</span></div>
+          <div class="stat-box"><span class="stat-box-label">AC</span><span class="stat-box-val">16</span></div>
+          <div class="stat-box"><span class="stat-box-label">Prof</span><span class="stat-box-val">+4</span></div>
+          <div class="stat-box"><span class="stat-box-label">XP</span><span class="stat-box-val">100k</span></div>
+        </div>
+        <div class="ability-grid-6">
+          <div class="ability-cell"><span class="ab-abbr">STR</span><span class="ab-score">20</span><span class="ab-mod">+5</span></div>
+          <div class="ability-cell"><span class="ab-abbr">DEX</span><span class="ab-score">14</span><span class="ab-mod">+2</span></div>
+          <div class="ability-cell"><span class="ab-abbr">CON</span><span class="ab-score">18</span><span class="ab-mod">+4</span></div>
+          <div class="ability-cell"><span class="ab-abbr">INT</span><span class="ab-score">10</span><span class="ab-mod">+0</span></div>
+          <div class="ability-cell"><span class="ab-abbr">WIS</span><span class="ab-score">13</span><span class="ab-mod">+1</span></div>
+          <div class="ability-cell"><span class="ab-abbr">CHA</span><span class="ab-score">8</span><span class="ab-mod">-1</span></div>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-top"><span>XP to Lv 13</span><span>100,000 / 120,000</span></div>
+          <div class="xp-bar-bg"><div class="xp-bar-fill" style="width:83%;background:linear-gradient(90deg,#7c3aed,#a855f7);"></div></div>
+        </div>
+        <div class="wl-footer">
+          <span class="wl-wins">W 47</span>
+          <span class="wl-rate">Win Rate 79.7%</span>
+          <span class="wl-losses">L 12</span>
+        </div>
+      </div>
+
+      <!-- Lyra Moonshadow — LEGENDARY -->
+      <div class="char-showcase-card" style="--rarity-color: #eab308; border-color: rgba(234,179,8,0.5);">
+        <div class="showcase-top">
+          <div class="showcase-avatar" style="background: linear-gradient(135deg, #ca8a04, #eab308);">&#10024;</div>
+          <div class="showcase-badges">
+            <span class="rarity-badge" style="background:rgba(234,179,8,0.2);border:1px solid rgba(234,179,8,0.5);color:#eab308;">LEGENDARY</span>
+            <span class="level-badge">Level 8</span>
+          </div>
+        </div>
+        <div class="showcase-name">Lyra Moonshadow</div>
+        <div class="showcase-subtitle">Elf Wizard &bull; Token #0042</div>
+        <div class="combat-row-4">
+          <div class="stat-box"><span class="stat-box-label">HP</span><span class="stat-box-val">42</span></div>
+          <div class="stat-box"><span class="stat-box-label">AC</span><span class="stat-box-val">13</span></div>
+          <div class="stat-box"><span class="stat-box-label">Prof</span><span class="stat-box-val">+3</span></div>
+          <div class="stat-box"><span class="stat-box-label">XP</span><span class="stat-box-val">34k</span></div>
+        </div>
+        <div class="ability-grid-6">
+          <div class="ability-cell"><span class="ab-abbr">STR</span><span class="ab-score">8</span><span class="ab-mod">-1</span></div>
+          <div class="ability-cell"><span class="ab-abbr">DEX</span><span class="ab-score">16</span><span class="ab-mod">+3</span></div>
+          <div class="ability-cell"><span class="ab-abbr">CON</span><span class="ab-score">14</span><span class="ab-mod">+2</span></div>
+          <div class="ability-cell"><span class="ab-abbr">INT</span><span class="ab-score">20</span><span class="ab-mod">+5</span></div>
+          <div class="ability-cell"><span class="ab-abbr">WIS</span><span class="ab-score">15</span><span class="ab-mod">+2</span></div>
+          <div class="ability-cell"><span class="ab-abbr">CHA</span><span class="ab-score">12</span><span class="ab-mod">+1</span></div>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-top"><span>XP to Lv 9</span><span>34,000 / 48,000</span></div>
+          <div class="xp-bar-bg"><div class="xp-bar-fill" style="width:71%;background:linear-gradient(90deg,#ca8a04,#eab308);"></div></div>
+        </div>
+        <div class="wl-footer">
+          <span class="wl-wins">W 31</span>
+          <span class="wl-rate">Win Rate 79.5%</span>
+          <span class="wl-losses">L 8</span>
+        </div>
+      </div>
+
+      <!-- Kael Stormborn — RARE -->
+      <div class="char-showcase-card" style="--rarity-color: #3b82f6; border-color: rgba(59,130,246,0.5);">
+        <div class="showcase-top">
+          <div class="showcase-avatar" style="background: linear-gradient(135deg, #1d4ed8, #3b82f6);">&#9889;</div>
+          <div class="showcase-badges">
+            <span class="rarity-badge" style="background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.5);color:#3b82f6;">RARE</span>
+            <span class="level-badge">Level 15</span>
+          </div>
+        </div>
+        <div class="showcase-name">Kael Stormborn</div>
+        <div class="showcase-subtitle">Dragonborn Paladin &bull; Token #0007</div>
+        <div class="combat-row-4">
+          <div class="stat-box"><span class="stat-box-label">HP</span><span class="stat-box-val">112</span></div>
+          <div class="stat-box"><span class="stat-box-label">AC</span><span class="stat-box-val">18</span></div>
+          <div class="stat-box"><span class="stat-box-label">Prof</span><span class="stat-box-val">+5</span></div>
+          <div class="stat-box"><span class="stat-box-label">XP</span><span class="stat-box-val">195k</span></div>
+        </div>
+        <div class="ability-grid-6">
+          <div class="ability-cell"><span class="ab-abbr">STR</span><span class="ab-score">18</span><span class="ab-mod">+4</span></div>
+          <div class="ability-cell"><span class="ab-abbr">DEX</span><span class="ab-score">12</span><span class="ab-mod">+1</span></div>
+          <div class="ability-cell"><span class="ab-abbr">CON</span><span class="ab-score">16</span><span class="ab-mod">+3</span></div>
+          <div class="ability-cell"><span class="ab-abbr">INT</span><span class="ab-score">10</span><span class="ab-mod">+0</span></div>
+          <div class="ability-cell"><span class="ab-abbr">WIS</span><span class="ab-score">15</span><span class="ab-mod">+2</span></div>
+          <div class="ability-cell"><span class="ab-abbr">CHA</span><span class="ab-score">17</span><span class="ab-mod">+3</span></div>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-top"><span>XP to Lv 16</span><span>195,000 / 225,000</span></div>
+          <div class="xp-bar-bg"><div class="xp-bar-fill" style="width:87%;background:linear-gradient(90deg,#1d4ed8,#3b82f6);"></div></div>
+        </div>
+        <div class="wl-footer">
+          <span class="wl-wins">W 63</span>
+          <span class="wl-rate">Win Rate 80.8%</span>
+          <span class="wl-losses">L 15</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== BATTLE SYSTEM ===== -->
+<section id="battle" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Battle <span class="gradient-text">System</span></h2>
+      <p>Turn-based combat resolved on-chain. D20 rolls, AC checks, and damage all computed by the smart contract &mdash; no client-side cheating possible.</p>
+    </div>
+    <div class="battle-inner">
+
+      <!-- Battle Log -->
+      <div class="battle-log-card">
+        <div class="battle-log-header">
+          <div class="battle-log-title">&#9876; Combat Log</div>
+          <div class="battle-live-badge">
+            <div class="live-dot"></div>
+            LIVE
+          </div>
+        </div>
+
+        <!-- VS HP bars -->
+        <div class="vs-row">
+          <div class="vs-fighter">
+            <div class="vs-fighter-name" style="color:#a855f7;">Thorin Ironforge</div>
+            <div class="vs-hp-label">
+              <span>HP</span>
+              <span id="thorin-hp-text">125/125</span>
             </div>
-            <div class="preview-char-info">
-              <span>Level 8 Wizard</span>
-              <span>Elf</span>
+            <div class="hp-bar-bg">
+              <div class="hp-bar-fill hp-fill-thorin" id="thorin-hp-bar" style="width:100%;"></div>
             </div>
-            <div class="preview-char-info">
-              <span>HP: 42/42</span>
-              <span>AC: 13</span>
+          </div>
+          <div class="vs-badge">VS</div>
+          <div class="vs-fighter">
+            <div class="vs-fighter-name" style="color:#3b82f6;">Kael Stormborn</div>
+            <div class="vs-hp-label">
+              <span>HP</span>
+              <span id="kael-hp-text">112/112</span>
             </div>
-            <div class="preview-combat">
-              <span>Prof: +3</span>
-              <span>XP: 34,000</span>
+            <div class="hp-bar-bg">
+              <div class="hp-bar-fill hp-fill-kael" id="kael-hp-bar" style="width:100%;"></div>
             </div>
-            <div class="preview-abilities">
-              <div class="preview-ability"><span class="preview-ability-label">STR</span><span class="preview-ability-val">8</span><span class="preview-ability-mod">-1</span></div>
-              <div class="preview-ability"><span class="preview-ability-label">DEX</span><span class="preview-ability-val">16</span><span class="preview-ability-mod">+3</span></div>
-              <div class="preview-ability"><span class="preview-ability-label">CON</span><span class="preview-ability-val">14</span><span class="preview-ability-mod">+2</span></div>
-              <div class="preview-ability"><span class="preview-ability-label">INT</span><span class="preview-ability-val">20</span><span class="preview-ability-mod">+5</span></div>
-              <div class="preview-ability"><span class="preview-ability-label">WIS</span><span class="preview-ability-val">15</span><span class="preview-ability-mod">+2</span></div>
-              <div class="preview-ability"><span class="preview-ability-label">CHA</span><span class="preview-ability-val">12</span><span class="preview-ability-mod">+1</span></div>
+          </div>
+        </div>
+
+        <!-- Log entries -->
+        <div class="log-entries">
+          <div class="log-entry" id="log-0">
+            <div class="log-round">R1</div>
+            <div class="log-text">
+              <span class="log-actor-thorin">Thorin</span> rolls
+              <span class="log-roll">18</span> &rarr;
+              <span class="log-hit">HIT</span>
+              <span class="log-dmg">12 dmg</span> &mdash; Kael HP 100
             </div>
-            <div class="preview-record">
-              <span>Wins: 31</span>
-              <span>Losses: 8</span>
-              <span>Win Rate: 79%</span>
+          </div>
+          <div class="log-entry" id="log-1">
+            <div class="log-round">R1</div>
+            <div class="log-text">
+              <span class="log-actor-kael">Kael</span> rolls
+              <span class="log-roll">14</span> &rarr;
+              <span class="log-miss">MISS</span>
             </div>
-            <button class="preview-btn">Train (+100 XP)</button>
+          </div>
+          <div class="log-entry" id="log-2">
+            <div class="log-round">R2</div>
+            <div class="log-text">
+              <span class="log-actor-thorin">Thorin</span> rolls
+              <span class="log-roll">20</span> &rarr;
+              <span class="log-hit">CRIT HIT</span>
+              <span class="log-dmg">16 dmg</span> &mdash; Kael HP 84
+            </div>
+          </div>
+          <div class="log-entry" id="log-3">
+            <div class="log-round">R2</div>
+            <div class="log-text">
+              <span class="log-actor-kael">Kael</span> rolls
+              <span class="log-roll">19</span> &rarr;
+              <span class="log-hit">HIT</span>
+              <span class="log-dmg">14 dmg</span> &mdash; Thorin HP 111
+            </div>
+          </div>
+          <div class="log-entry" id="log-4">
+            <div class="log-round">R3</div>
+            <div class="log-text">
+              <span class="log-actor-thorin">Thorin</span> rolls
+              <span class="log-roll">11</span> &rarr;
+              <span class="log-miss">MISS</span>
+            </div>
+          </div>
+          <div class="log-entry" id="log-5">
+            <div class="log-round">R3</div>
+            <div class="log-text">
+              <span class="log-actor-kael">Kael</span> rolls
+              <span class="log-roll">17</span> &rarr;
+              <span class="log-hit">HIT</span>
+              <span class="log-dmg">11 dmg</span> &mdash; Thorin HP 100
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Battle Arena Preview -->
-      <div class="interface-card">
-        <div class="interface-card-header">
-          <h3>BattleArena.js</h3>
-          <p>PvP combat interface with character selection, d20 rolls, and animated battle log</p>
+      <!-- Dice + Quick stats -->
+      <div class="dice-panel">
+        <div class="dice-card">
+          <div class="dice-title">&#127922; d20 Dice Roller</div>
+          <div class="dice-display" id="dice-display">20</div>
+          <div class="dice-result-label crit" id="dice-label">CRITICAL HIT!</div>
+          <button class="btn-roll" id="btn-roll" onclick="rollDice()">Roll a d20</button>
         </div>
-        <div class="interface-card-body">
-          <div class="preview-battle">
-            <div class="preview-combatants">
-              <div class="preview-combatant">
-                <div class="preview-combatant-name">Thorin Ironforge</div>
-                <div class="preview-combatant-class">Lv.12 Barbarian</div>
-                <div class="hp-bar"><div class="hp-fill hp-fill-green"></div></div>
-                <span class="hp-text">100/125 HP</span>
+
+        <div class="quick-stats-card">
+          <div class="quick-stats-title">How Battle Works</div>
+          <div class="qs-list">
+            <div class="qs-item">
+              <div class="qs-dot" style="background:#a855f7;"></div>
+              Roll d20 + attack bonus vs. opponent AC
+            </div>
+            <div class="qs-item">
+              <div class="qs-dot" style="background:#ec4899;"></div>
+              Natural 20 = Critical Hit (double dice)
+            </div>
+            <div class="qs-item">
+              <div class="qs-dot" style="background:#3b82f6;"></div>
+              Natural 1 = Automatic Miss
+            </div>
+            <div class="qs-item">
+              <div class="qs-dot" style="background:#22c55e;"></div>
+              Winner earns XP; loser records a loss
+            </div>
+            <div class="qs-item">
+              <div class="qs-dot" style="background:#eab308;"></div>
+              All RNG resolved on-chain via block hash
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== SMART CONTRACT ARCHITECTURE ===== -->
+<section id="contract" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Smart Contract <span class="gradient-text">Architecture</span></h2>
+      <p>A single C++ EOSIO contract handles all game logic. Trustless, auditable, and immutable once deployed.</p>
+    </div>
+    <div class="contract-inner">
+
+      <div class="contract-left">
+        <!-- Actions -->
+        <div class="panel-card">
+          <h3>&#9660; Contract Actions</h3>
+          <div class="action-list">
+            <div class="action-item">
+              <div class="action-name">mintchar()</div>
+              <div class="action-desc">Mint a new NFT character &mdash; class, race, name, and initial stats generated on-chain</div>
+            </div>
+            <div class="action-item">
+              <div class="action-name">battle()</div>
+              <div class="action-desc">Initiate PvP combat; winner determined by d20 rolls against AC, all resolved on-chain</div>
+            </div>
+            <div class="action-item">
+              <div class="action-name">gainexp()</div>
+              <div class="action-desc">Award XP to a character, triggering level-up logic and ASI at thresholds</div>
+            </div>
+            <div class="action-item">
+              <div class="action-name">equip()</div>
+              <div class="action-desc">Equip an item NFT to a character slot, updating combat stats accordingly</div>
+            </div>
+            <div class="action-item">
+              <div class="action-name">rest()</div>
+              <div class="action-desc">Long rest restores HP to max and resets short-rest resources like hit dice</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- On-chain tables -->
+        <div class="panel-card">
+          <h3>&#9776; On-Chain Tables</h3>
+          <div class="table-list">
+            <div>
+              <div class="table-name">characters</div>
+              <div class="table-indexes">
+                <span class="index-badge">primary: id</span>
+                <span class="index-badge">byowner</span>
+                <span class="index-badge">bylevel</span>
               </div>
-              <div class="vs-badge">VS</div>
-              <div class="preview-combatant">
-                <div class="preview-combatant-name">Kael Stormborn</div>
-                <div class="preview-combatant-class">Lv.15 Paladin</div>
-                <div class="hp-bar"><div class="hp-fill hp-fill-blue"></div></div>
-                <span class="hp-text">84/112 HP</span>
+            </div>
+            <div>
+              <div class="table-name">equipment</div>
+              <div class="table-indexes">
+                <span class="index-badge">primary: id</span>
+                <span class="index-badge">byowner</span>
               </div>
             </div>
-            <div class="preview-log">
-              <div class="preview-log-entry"><span class="log-round">R1</span><span class="log-name">Thorin</span><span class="log-roll">d20: 18</span><span class="log-hit">HIT! 12 dmg</span></div>
-              <div class="preview-log-entry"><span class="log-round">R1</span><span class="log-name">Kael</span><span class="log-roll">d20: 14</span><span class="log-miss">MISS</span></div>
-              <div class="preview-log-entry active"><span class="log-round">R2</span><span class="log-name">Thorin</span><span class="log-roll">d20: 20</span><span class="log-hit">CRIT! 16 dmg</span></div>
-              <div class="preview-log-entry"><span class="log-round">R2</span><span class="log-name">Kael</span><span class="log-roll">d20: 19</span><span class="log-hit">HIT! 14 dmg</span></div>
-              <div class="preview-log-entry"><span class="log-round">R3</span><span class="log-name">Thorin</span><span class="log-roll">d20: 11</span><span class="log-miss">MISS</span></div>
-              <div class="preview-log-entry"><span class="log-round">R3</span><span class="log-name">Kael</span><span class="log-roll">d20: 17</span><span class="log-hit">HIT! 11 dmg</span></div>
+            <div>
+              <div class="table-name">config</div>
+              <div class="table-indexes">
+                <span class="index-badge">singleton</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Mint Character Preview -->
-      <div class="interface-card">
-        <div class="interface-card-header">
-          <h3>MintCharacter.js</h3>
-          <p>Character creation form with race, class, and rarity selection for NFT minting</p>
+      <!-- Code window -->
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yel"></div>
+          <div class="dot dot-grn"></div>
+          <div class="code-filename">waxchainsaw.hpp</div>
         </div>
-        <div class="interface-card-body">
-          <div class="preview-mint">
-            <label class="preview-form-label">Character Name</label>
-            <input class="preview-input" type="text" value="Aria Thornwood" readonly>
-            <label class="preview-form-label">Race</label>
-            <div class="preview-option-grid">
-              <div class="preview-option">Human</div>
-              <div class="preview-option selected">Elf</div>
-              <div class="preview-option">Dwarf</div>
-            </div>
-            <label class="preview-form-label">Class</label>
-            <div class="preview-option-grid">
-              <div class="preview-option">Barbarian</div>
-              <div class="preview-option">Bard</div>
-              <div class="preview-option selected">Cleric</div>
-            </div>
-            <label class="preview-form-label">Rarity</label>
-            <div class="preview-rarity-grid">
-              <div class="preview-rarity" style="border-color: #9ca3af; color: #9ca3af">Common</div>
-              <div class="preview-rarity" style="border-color: #22c55e; color: #22c55e">Uncommon</div>
-              <div class="preview-rarity selected" style="border-color: #3b82f6; color: #3b82f6">Rare</div>
-              <div class="preview-rarity" style="border-color: #a855f7; color: #a855f7">Epic</div>
-              <div class="preview-rarity" style="border-color: #eab308; color: #eab308">Legendary</div>
-            </div>
-            <button class="preview-mint-btn">Mint Character NFT</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Character System -->
-  <section id="characters" class="section tech-bg">
-    <h2 class="section-title">Character System</h2>
-    <p class="section-subtitle">Full D&amp;D 5e character creation with on-chain NFT minting</p>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <h4>12 Character Classes</h4>
-        <div class="chip-grid">
-          <span class="chip">Barbarian</span><span class="chip">Bard</span><span class="chip">Cleric</span>
-          <span class="chip">Druid</span><span class="chip">Fighter</span><span class="chip">Monk</span>
-          <span class="chip">Paladin</span><span class="chip">Ranger</span><span class="chip">Rogue</span>
-          <span class="chip">Sorcerer</span><span class="chip">Warlock</span><span class="chip">Wizard</span>
-        </div>
-      </div>
-      <div class="feature-card">
-        <h4>9 Playable Races</h4>
-        <div class="chip-grid">
-          <span class="chip chip-race">Human</span><span class="chip chip-race">Elf</span><span class="chip chip-race">Dwarf</span>
-          <span class="chip chip-race">Halfling</span><span class="chip chip-race">Dragonborn</span><span class="chip chip-race">Gnome</span>
-          <span class="chip chip-race">Half-Elf</span><span class="chip chip-race">Half-Orc</span><span class="chip chip-race">Tiefling</span>
-        </div>
-      </div>
-      <div class="feature-card">
-        <h4>5 Rarity Tiers</h4>
-        <div class="chip-grid">
-          <span class="chip chip-rarity" style="border-color: #9ca3af; color: #9ca3af">Common (+0)</span>
-          <span class="chip chip-rarity" style="border-color: #22c55e; color: #22c55e">Uncommon (+1)</span>
-          <span class="chip chip-rarity" style="border-color: #3b82f6; color: #3b82f6">Rare (+2)</span>
-          <span class="chip chip-rarity" style="border-color: #a855f7; color: #a855f7">Epic (+3)</span>
-          <span class="chip chip-rarity" style="border-color: #eab308; color: #eab308">Legendary (+4)</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Smart Contract -->
-  <section id="contract" class="section">
-    <h2 class="section-title">Smart Contract Architecture</h2>
-    <p class="section-subtitle">540+ lines of C++ powering on-chain game logic</p>
-    <div class="contract-grid">
-      <div>
-        <h3>Contract Actions</h3>
-        <div class="action-list">
-          <div class="action-item"><code class="action-name">mintchar()</code><span class="action-desc">Create a new character NFT with class, race, and rarity</span></div>
-          <div class="action-item"><code class="action-name">battle()</code><span class="action-desc">PvP combat with d20 rolls resolved on-chain</span></div>
-          <div class="action-item"><code class="action-name">gainexp()</code><span class="action-desc">Award XP with automatic level-up and stat recalculation</span></div>
-          <div class="action-item"><code class="action-name">equip()</code><span class="action-desc">Equip weapons and armor to modify character stats</span></div>
-          <div class="action-item"><code class="action-name">rest()</code><span class="action-desc">Long rest to restore character to full HP</span></div>
-        </div>
-      </div>
-      <div>
-        <h3>On-Chain Data</h3>
-        <div class="table-card">
-          <h4>characters</h4>
-          <p>Multi-index table storing ability scores, combat stats, equipment slots, and battle records.</p>
-          <div class="table-indexes"><span class="index-tag">Primary: id</span><span class="index-tag">byowner</span><span class="index-tag">bylevel</span></div>
-        </div>
-        <div class="table-card">
-          <h4>equipment</h4>
-          <p>Weapons and armor NFTs with damage dice, AC bonuses, and stat modifiers.</p>
-          <div class="table-indexes"><span class="index-tag">Primary: id</span><span class="index-tag">byowner</span></div>
-        </div>
-        <div class="table-card">
-          <h4>config</h4>
-          <p>Singleton storing auto-incrementing IDs, mint pricing, and contract configuration.</p>
-          <div class="table-indexes"><span class="index-tag">Singleton</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="code-preview">
-      <div class="code-header">
-        <span class="code-dot red"></span>
-        <span class="code-dot yellow"></span>
-        <span class="code-dot green"></span>
-        <span class="code-filename">rpgcharacter.cpp</span>
-      </div>
-      <pre class="code-block">// D&amp;D 5e Character Classes
-enum character_class : uint8_t {
-    BARBARIAN = 0, BARD = 1, CLERIC = 2,
-    DRUID = 3, FIGHTER = 4, MONK = 5,
-    PALADIN = 6, RANGER = 7, ROGUE = 8,
-    SORCERER = 9, WARLOCK = 10, WIZARD = 11
+        <div class="code-body">
+<pre><span class="cm">// D&amp;D 5e Character Classes</span>
+<span class="kw">enum</span> <span class="ty">character_class</span> : <span class="ty">uint8_t</span> {
+    <span class="nm">BARBARIAN</span> = <span class="nm">0</span>,  <span class="nm">BARD</span>     = <span class="nm">1</span>,
+    <span class="nm">CLERIC</span>    = <span class="nm">2</span>,  <span class="nm">DRUID</span>    = <span class="nm">3</span>,
+    <span class="nm">FIGHTER</span>   = <span class="nm">4</span>,  <span class="nm">MONK</span>     = <span class="nm">5</span>,
+    <span class="nm">PALADIN</span>   = <span class="nm">6</span>,  <span class="nm">RANGER</span>   = <span class="nm">7</span>,
+    <span class="nm">ROGUE</span>     = <span class="nm">8</span>,  <span class="nm">SORCERER</span> = <span class="nm">9</span>,
+    <span class="nm">WARLOCK</span>   = <span class="nm">10</span>, <span class="nm">WIZARD</span>   = <span class="nm">11</span>
 };
 
-// Character NFT with full D&amp;D 5e stats
-TABLE character {
-    uint64_t    id;
-    name        owner;
-    string      char_name;
-    uint8_t     char_class;
-    uint8_t     char_race;
-    uint8_t     rarity_level;
-    uint8_t     level;
-    uint32_t    experience;
-    stats       ability_scores;  // STR, DEX, CON, INT, WIS, CHA
-    combat_stats combat;         // HP, AC, proficiency
-    uint32_t    wins;
-    uint32_t    losses;
+<span class="cm">// Character NFT with full D&amp;D 5e stats</span>
+<span class="kw">TABLE</span> <span class="ty">character</span> {
+    <span class="ty">uint64_t</span>     <span class="id">id</span>;
+    <span class="ty">name</span>         <span class="id">owner</span>;
+    <span class="ty">string</span>       <span class="id">char_name</span>;
+    <span class="ty">uint8_t</span>      <span class="id">char_class</span>;
+    <span class="ty">uint8_t</span>      <span class="id">char_race</span>;
+    <span class="ty">uint8_t</span>      <span class="id">rarity_level</span>;
+    <span class="ty">uint8_t</span>      <span class="id">level</span>;
+    <span class="ty">uint32_t</span>     <span class="id">experience</span>;
+    <span class="ty">stats</span>        <span class="id">ability_scores</span>;
+    <span class="cm">             // STR DEX CON INT WIS CHA</span>
+    <span class="ty">combat_stats</span> <span class="id">combat</span>;
+    <span class="cm">             // HP, AC, proficiency</span>
+    <span class="ty">uint32_t</span>     <span class="id">wins</span>;
+    <span class="ty">uint32_t</span>     <span class="id">losses</span>;
+
+    <span class="ty">uint64_t</span> <span class="fn">primary_key</span>() <span class="kw">const</span> {
+        <span class="kw">return</span> <span class="id">id</span>;
+    }
+    <span class="ty">uint64_t</span> <span class="fn">by_owner</span>() <span class="kw">const</span> {
+        <span class="kw">return</span> <span class="id">owner</span>.<span class="fn">value</span>();
+    }
+    <span class="ty">uint64_t</span> <span class="fn">by_level</span>() <span class="kw">const</span> {
+        <span class="kw">return</span> <span class="id">level</span>;
+    }
+
+    <span class="fn">EOSLIB_SERIALIZE</span>(<span class="ty">character</span>,
+        (<span class="id">id</span>)(<span class="id">owner</span>)(<span class="id">char_name</span>)
+        (<span class="id">char_class</span>)(<span class="id">char_race</span>)
+        (<span class="id">rarity_level</span>)(<span class="id">level</span>)
+        (<span class="id">experience</span>)(<span class="id">ability_scores</span>)
+        (<span class="id">combat</span>)(<span class="id">wins</span>)(<span class="id">losses</span>)
+    )
 };</pre>
-    </div>
-  </section>
-
-  <!-- Architecture -->
-  <section id="architecture" class="section arch-bg">
-    <h2 class="section-title">Project Architecture</h2>
-    <p class="section-subtitle">Clean separation between on-chain logic and frontend interface</p>
-    <div class="arch-diagram">
-      <div class="arch-layer">
-        <div class="arch-label">Frontend</div>
-        <div class="arch-boxes">
-          <div class="arch-box frontend">React 18 UI</div>
-          <div class="arch-box frontend">WAX Cloud Wallet</div>
-          <div class="arch-box frontend">Component System</div>
         </div>
       </div>
-      <div class="arch-arrow">&#x2193; waxjs / eosjs &#x2193;</div>
-      <div class="arch-layer">
-        <div class="arch-label">Blockchain</div>
-        <div class="arch-boxes">
-          <div class="arch-box chain">Smart Contract (C++)</div>
-          <div class="arch-box chain">Multi-Index Tables</div>
-          <div class="arch-box chain">WAX Testnet</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROGRESSION SYSTEM ===== -->
+<section id="progression" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>D&amp;D 5e <span class="gradient-text">Progression System</span></h2>
+      <p>All XP thresholds, hit dice, and proficiency bonuses match the official 5th Edition System Reference Document.</p>
+    </div>
+    <div class="prog-inner">
+
+      <div class="prog-row">
+        <!-- XP Thresholds -->
+        <div class="prog-card">
+          <h3>&#9650; XP Thresholds</h3>
+          <table class="xp-table">
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>XP Required</th>
+                <th>Feature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td class="xp-val">0</td><td>&mdash;</td></tr>
+              <tr><td>2</td><td class="xp-val">300</td><td>&mdash;</td></tr>
+              <tr><td>3</td><td class="xp-val">900</td><td>&mdash;</td></tr>
+              <tr class="asi-row"><td>4</td><td class="xp-val">2,700</td><td><span class="asi-flag">ASI</span></td></tr>
+              <tr><td>5</td><td class="xp-val">6,500</td><td>&mdash;</td></tr>
+              <tr><td>6</td><td class="xp-val">14,000</td><td>&mdash;</td></tr>
+              <tr><td>7</td><td class="xp-val">23,000</td><td>&mdash;</td></tr>
+              <tr class="asi-row"><td>8</td><td class="xp-val">34,000</td><td><span class="asi-flag">ASI</span></td></tr>
+              <tr><td>10</td><td class="xp-val">64,000</td><td>&mdash;</td></tr>
+              <tr class="asi-row"><td>12</td><td class="xp-val">100,000</td><td><span class="asi-flag">ASI</span></td></tr>
+              <tr><td>15</td><td class="xp-val">195,000</td><td>&mdash;</td></tr>
+              <tr class="asi-row"><td>20</td><td class="xp-val">355,000</td><td><span class="asi-flag">ASI</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Hit Dice -->
+        <div class="prog-card">
+          <h3>&#127922; Hit Dice by Class</h3>
+          <div class="hit-dice-grid">
+            <div class="hd-item"><span class="hd-class">Barbarian</span><span class="hd-die hd-d12">d12</span></div>
+            <div class="hd-item"><span class="hd-class">Fighter</span><span class="hd-die hd-d10">d10</span></div>
+            <div class="hd-item"><span class="hd-class">Paladin</span><span class="hd-die hd-d10">d10</span></div>
+            <div class="hd-item"><span class="hd-class">Ranger</span><span class="hd-die hd-d10">d10</span></div>
+            <div class="hd-item"><span class="hd-class">Bard</span><span class="hd-die hd-d8">d8</span></div>
+            <div class="hd-item"><span class="hd-class">Cleric</span><span class="hd-die hd-d8">d8</span></div>
+            <div class="hd-item"><span class="hd-class">Druid</span><span class="hd-die hd-d8">d8</span></div>
+            <div class="hd-item"><span class="hd-class">Monk</span><span class="hd-die hd-d8">d8</span></div>
+            <div class="hd-item"><span class="hd-class">Rogue</span><span class="hd-die hd-d8">d8</span></div>
+            <div class="hd-item"><span class="hd-class">Warlock</span><span class="hd-die hd-d8">d8</span></div>
+            <div class="hd-item"><span class="hd-class">Sorcerer</span><span class="hd-die hd-d6">d6</span></div>
+            <div class="hd-item"><span class="hd-class">Wizard</span><span class="hd-die hd-d6">d6</span></div>
+          </div>
+          <div style="margin-top:1rem;font-size:0.72rem;color:#9ca3af;line-height:1.6;">
+            <span style="color:#ef4444;">&#9632;</span> d12 &nbsp;
+            <span style="color:#f97316;">&#9632;</span> d10 &nbsp;
+            <span style="color:#eab308;">&#9632;</span> d8 &nbsp;
+            <span style="color:#22c55e;">&#9632;</span> d6
+          </div>
         </div>
       </div>
-      <div class="arch-arrow">&#x2193; On-Chain Storage &#x2193;</div>
-      <div class="arch-layer">
-        <div class="arch-label">Data</div>
-        <div class="arch-boxes">
-          <div class="arch-box data">Characters Table</div>
-          <div class="arch-box data">Equipment Table</div>
-          <div class="arch-box data">Config Singleton</div>
+
+      <!-- Proficiency Table -->
+      <div class="prog-card">
+        <h3>&#9651; Proficiency Bonus by Tier</h3>
+        <table class="prof-table">
+          <thead>
+            <tr>
+              <th>Levels</th>
+              <th>Proficiency Bonus</th>
+              <th>Tier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 &ndash; 4</td>
+              <td class="prof-bonus">+2</td>
+              <td><span class="tier-badge" style="background:rgba(156,163,175,0.15);border:1px solid rgba(156,163,175,0.3);color:#9ca3af;">Adventurer</span></td>
+            </tr>
+            <tr>
+              <td>5 &ndash; 8</td>
+              <td class="prof-bonus">+3</td>
+              <td><span class="tier-badge" style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#22c55e;">Hero</span></td>
+            </tr>
+            <tr>
+              <td>9 &ndash; 12</td>
+              <td class="prof-bonus">+4</td>
+              <td><span class="tier-badge" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#3b82f6;">Champion</span></td>
+            </tr>
+            <tr>
+              <td>13 &ndash; 16</td>
+              <td class="prof-bonus">+5</td>
+              <td><span class="tier-badge" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.3);color:#a855f7;">Legend</span></td>
+            </tr>
+            <tr>
+              <td>17 &ndash; 20</td>
+              <td class="prof-bonus">+6</td>
+              <td><span class="tier-badge" style="background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.35);color:#eab308;">Mythic</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECT ARCHITECTURE ===== -->
+<section id="architecture" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Project <span class="gradient-text">Architecture</span></h2>
+      <p>A clean three-layer separation &mdash; React frontend talks to the WAX blockchain via waxjs/eosjs, with all game state living in on-chain tables.</p>
+    </div>
+    <div class="arch-inner">
+
+      <!-- Layer diagram -->
+      <div>
+        <h3 style="font-size:1rem;font-weight:700;color:#d1d5db;margin-bottom:1.25rem;">&#9776; System Layers</h3>
+        <div class="layer-diagram">
+
+          <div class="arch-layer arch-layer-frontend">
+            <div class="arch-layer-label">Frontend Layer</div>
+            <div class="arch-layer-items">
+              <span class="arch-item">React 18</span>
+              <span class="arch-item">waxjs</span>
+              <span class="arch-item">eosjs</span>
+              <span class="arch-item">LandingPage.js</span>
+              <span class="arch-item">Character UI</span>
+              <span class="arch-item">Battle UI</span>
+              <span class="arch-item">Mint UI</span>
+            </div>
+          </div>
+
+          <div class="arch-arrow">&#9660;</div>
+
+          <div class="arch-layer arch-layer-blockchain">
+            <div class="arch-layer-label">Blockchain Layer</div>
+            <div class="arch-layer-items">
+              <span class="arch-item">WAX Protocol</span>
+              <span class="arch-item">EOSIO CDT</span>
+              <span class="arch-item">waxchainsaw.cpp</span>
+              <span class="arch-item">mintchar()</span>
+              <span class="arch-item">battle()</span>
+              <span class="arch-item">gainexp()</span>
+              <span class="arch-item">equip()</span>
+              <span class="arch-item">rest()</span>
+            </div>
+          </div>
+
+          <div class="arch-arrow">&#9660;</div>
+
+          <div class="arch-layer arch-layer-data">
+            <div class="arch-layer-label">Data Layer (On-Chain Tables)</div>
+            <div class="arch-layer-items">
+              <span class="arch-item">characters</span>
+              <span class="arch-item">equipment</span>
+              <span class="arch-item">config</span>
+              <span class="arch-item">secondary indexes</span>
+              <span class="arch-item">NFT metadata</span>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
 
-    <div class="structure-tree">
-      <h3>Project Structure</h3>
-      <pre style="margin:0;background:none;padding:0;border:none;">wax-rpg-collection/
-  contracts/
-    rpgcharacter.cpp      # Smart contract (540+ lines C++)
-    CMakeLists.txt        # Build configuration
-  frontend/
-    src/
-      App.js              # Main application
-      components/
-        LandingPage.js    # Portfolio landing page
-        CharacterCard.js  # Character display
-        BattleArena.js    # PvP battle interface
-        MintCharacter.js  # Character creation
-    package.json          # React dependencies
-  build.sh                # Contract compilation
-  deploy.sh               # Testnet deployment
-  start.sh                # Frontend startup</pre>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <h3>WAX RPG Collection</h3>
-        <p>A blockchain RPG portfolio project showcasing full-stack Web3 development with D&amp;D 5e game mechanics.</p>
+      <!-- File Tree -->
+      <div>
+        <h3 style="font-size:1rem;font-weight:700;color:#d1d5db;margin-bottom:1.25rem;">&#128193; Project Structure</h3>
+        <div class="file-tree-card">
+          <div class="file-tree-header">
+            &#128193; wax-chainsaw/
+          </div>
+          <div class="file-tree-body">
+            <span class="ft-dir">&#128194; contracts/</span>
+            <span class="ft-i1"><span class="ft-dir">&#128194; waxchainsaw/</span></span>
+            <span class="ft-i2">&#128196; <span class="ft-ext-cpp">waxchainsaw.cpp</span> <span class="ft-comment">// main contract</span></span>
+            <span class="ft-i2">&#128196; <span class="ft-ext-cpp">waxchainsaw.hpp</span> <span class="ft-comment">// structs &amp; tables</span></span>
+            <span class="ft-i2">&#128196; <span class="ft-ext-cpp">waxchainsaw.abi</span> <span class="ft-comment">// ABI definition</span></span>
+            <span class="ft-dir">&#128194; frontend/</span>
+            <span class="ft-i1"><span class="ft-dir">&#128194; src/</span></span>
+            <span class="ft-i2">&#128196; <span class="ft-ext-js">LandingPage.js</span> <span class="ft-comment">// main UI</span></span>
+            <span class="ft-i2">&#128196; <span class="ft-ext-js">App.js</span></span>
+            <span class="ft-i2">&#128196; <span class="ft-ext-js">index.js</span></span>
+            <span class="ft-i1">&#128196; <span class="ft-ext-json">package.json</span></span>
+            <span class="ft-dir">&#128194; docs/</span>
+            <span class="ft-i1">&#128196; <span class="ft-ext-html">index.html</span> <span class="ft-comment">// this file</span></span>
+            <span class="ft-i1">&#128196; <span class="ft-ext-html">code.html</span> <span class="ft-comment">// contract viewer</span></span>
+            &#128196; <span class="ft-ext-md">README.md</span>
+            &#128196; <span class="ft-ext-json">package.json</span>
+          </div>
+        </div>
       </div>
-      <div class="footer-links">
-        <h4>Explore</h4>
-        <a href="#interface">Interface</a>
-        <a href="#contract">Smart Contract</a>
-        <a href="#architecture">Architecture</a>
-        <a href="code.html">Browse Code</a>
-      </div>
-      <div class="footer-links">
-        <h4>Built With</h4>
-        <span>React 18</span>
-        <span>WAX Blockchain</span>
-        <span>C++ / EOSIO</span>
-        <span>D&amp;D 5e SRD</span>
-      </div>
+
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // Intersection Observer for scroll animations
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+<!-- ===== FOOTER ===== -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">&#9876; WAX Chainsaw</div>
+      <div class="footer-tagline">D&amp;D 5e RPG on the WAX blockchain</div>
+    </div>
+    <div class="footer-links">
+      <a href="#hero">Home</a>
+      <a href="#characters">Characters</a>
+      <a href="#battle">Battle</a>
+      <a href="#contract">Contract</a>
+      <a href="code.html">Browse Code</a>
+    </div>
+    <div class="footer-built">
+      Built with C++ &bull; React 18<br/>
+      WAX Protocol &bull; D&amp;D 5e SRD
+    </div>
+  </div>
+</footer>
 
-    document.querySelectorAll('.section').forEach(section => {
-      observer.observe(section);
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+<script>
+  // ===== 1. INTERSECTION OBSERVER — section fade-in =====
+  (function () {
+    var sections = document.querySelectorAll('.section');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
       });
+    }, { threshold: 0.1 });
+    sections.forEach(function (s) { observer.observe(s); });
+  })();
+
+  // ===== 2. SMOOTH SCROLL for nav anchor links =====
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      var id = this.getAttribute('href');
+      if (id === '#') return;
+      var target = document.querySelector(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
-  </script>
+  });
+
+  // ===== 3. BATTLE ANIMATION — setInterval cycling rounds =====
+  (function () {
+    // HP after each log entry resolves
+    // Index = entry index (0-5), value = [thorinHP, kaelHP]
+    var hpStates = [
+      [125, 100],  // after log-0: Thorin hits Kael for 12
+      [125, 100],  // after log-1: Kael misses
+      [125, 84],   // after log-2: Thorin crits Kael for 16
+      [111, 84],   // after log-3: Kael hits Thorin for 14
+      [111, 84],   // after log-4: Thorin misses
+      [100, 84],   // after log-5: Kael hits Thorin for 11
+    ];
+
+    var THORIN_MAX = 125;
+    var KAEL_MAX   = 112;
+    var NUM_ENTRIES = 6;
+    var activeBattleRound = 0;
+
+    function updateBattle() {
+      // Clear all highlights
+      for (var i = 0; i < NUM_ENTRIES; i++) {
+        var el = document.getElementById('log-' + i);
+        if (el) el.className = 'log-entry';
+      }
+
+      // Highlight current entry
+      var activeEl = document.getElementById('log-' + activeBattleRound);
+      if (activeEl) {
+        var isMiss = (activeEl.textContent || '').indexOf('MISS') !== -1;
+        activeEl.className = 'log-entry active' + (isMiss ? ' miss-entry' : '');
+      }
+
+      // Update HP bars from current state
+      var state = hpStates[activeBattleRound];
+      var thorinHP = state[0];
+      var kaelHP   = state[1];
+      var thorinPct = Math.round((thorinHP / THORIN_MAX) * 100);
+      var kaelPct   = Math.round((kaelHP   / KAEL_MAX)   * 100);
+
+      var tBar  = document.getElementById('thorin-hp-bar');
+      var kBar  = document.getElementById('kael-hp-bar');
+      var tText = document.getElementById('thorin-hp-text');
+      var kText = document.getElementById('kael-hp-text');
+
+      if (tBar)  tBar.style.width  = thorinPct + '%';
+      if (kBar)  kBar.style.width  = kaelPct   + '%';
+      if (tText) tText.textContent = thorinHP + '/' + THORIN_MAX;
+      if (kText) kText.textContent = kaelHP   + '/' + KAEL_MAX;
+
+      // Advance to next round, loop back
+      activeBattleRound = (activeBattleRound + 1) % NUM_ENTRIES;
+    }
+
+    // Run immediately then every 2500ms
+    updateBattle();
+    setInterval(updateBattle, 2500);
+  })();
+
+  // ===== 4. DICE ROLLER =====
+  function rollDice() {
+    var btn   = document.getElementById('btn-roll');
+    var disp  = document.getElementById('dice-display');
+    var label = document.getElementById('dice-label');
+
+    if (!btn || btn.disabled) return;
+
+    btn.disabled = true;
+    disp.classList.add('rolling');
+    label.textContent = '';
+    label.className = 'dice-result-label normal';
+
+    var count = 0;
+    var interval = setInterval(function () {
+      disp.textContent = Math.floor(Math.random() * 20) + 1;
+      count++;
+      if (count >= 10) {
+        clearInterval(interval);
+
+        var finalVal = Math.floor(Math.random() * 20) + 1;
+        disp.textContent = finalVal;
+        disp.classList.remove('rolling');
+
+        if (finalVal === 20) {
+          label.textContent    = 'CRITICAL HIT!';
+          label.className      = 'dice-result-label crit';
+          disp.style.boxShadow = '0 0 50px rgba(234,179,8,0.8)';
+        } else if (finalVal === 1) {
+          label.textContent    = 'CRITICAL MISS!';
+          label.className      = 'dice-result-label fail';
+          disp.style.boxShadow = '0 0 50px rgba(239,68,68,0.7)';
+        } else {
+          var note = finalVal >= 15 ? 'Solid roll!' : finalVal >= 10 ? 'Could be worse.' : 'Risky...';
+          label.textContent    = note + ' (' + finalVal + ')';
+          label.className      = 'dice-result-label normal';
+          disp.style.boxShadow = '0 0 30px rgba(124,58,237,0.4)';
+        }
+
+        btn.disabled = false;
+      }
+    }, 80);
+  }
+</script>
 </body>
 </html>
